@@ -1,0 +1,114 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\pagestyle{headings}
+\author{Julio Cesar Eiras Melanda}
+\title{Computação Bio Inspirada \\
+      Relatório da Resolução do Problema do Caixeiro
+      Viajante com Algoritmos Genéticos}
+\begin{document}
+  \maketitle
+  \tableofcontents
+  \section{Introdução}
+  O problema do \emph{Caixeiro Viajante} é um dos mais conhecidos problemas
+  NP-completos da computação, e consiste em descobrir o menor caminho para
+  percorrer um conjunto de cidades completamente conectadas.
+
+  Um problema que pode ser resolvido facilmente na força bruta quando se tem
+  poucas cidades, mas que fica facilmente inpossível de tratar quando o número
+  de cidades cresce para algumas dezenas.
+
+  Vamos exemplificar a complexidade do problema com números.
+
+  Quando temos um conjunto de 5 cidades, temos $5!$ opções, ou seja, 120
+  caminhos que podem ser a resposta para o problema.
+
+  Já com 10 cidades, passamos a $10!$ opções, o que significa 3682800 opções, o
+  que ainda é aceitável computacionalmente. Mas aumentemos este número para 15
+  cidades e teremos $15!$ cidades o que nos dá o incrível número 1307674368000.
+
+  Se explodirmos este cálculo para 20 cidades ou mais, o número de opções é tão
+  grande que o tempo necessário para calcular o caminho ótimo ultrapassa a
+  casa dos milhares de anos.
+  \footnote{Considerando uma máquina de 1GHz, e imaginando que
+  a distância de uma solução possa ser calculada em 100 ciclos, temos:
+  2432902008176640000 soluções, que podem ser calculadas em
+  aproximadamente 24329020081766 segundos, cerca de 67580611
+  horas, que aproximamos em 2815858 dias, o que nos dá 7714 anos}
+
+  Assim, surge a necessidade de encontrarmos algoritmos que consigam resolver
+  este problema sem percorrer todas as soluções possíveis para encontrar a
+  solução ótima. Uma das soluções mais usadas, consiste na utilização de
+  algoritmos evolucionários, especialmente os algoritmos genéticos para a
+  encontrar a solução ótima, ou alguma solução bastante próxima da ótima.
+
+  \subsection{ALgoritmos Genéticos}
+  Algoritmos Genéticos são um conjunto de Algoritmos Evolucionários que se
+  inspiram na forma como a seleção natural escolhe os indivídos cujo código
+  genético seja mais favorável à adaptação ao ambiente onde se encontra para
+  encontrar soluções para problemas computacionalmente complexos.
+
+  Para isto, as possíveis soluções ao problema devem ser modeladas de modo a
+  serem representadas como um conjunto de cromossomos. Através de operadores
+  genéticos, as soluções são testadas segundo uma função de aptidão, e
+  das soluções mais bem adaptadas algumas são submetidas a cruzamentos para
+  gerar novas populações, assim, a população de soluções tende a convergir para
+  os valores ótimos.
+
+  \section{Modelagem do Problema}
+  \subsection{A distância entre as cidades}
+  Para modelarmos nosso problema vamos representar as distâncias entre as
+  cidades como uma matriz, onde cada linha e coluna representa uma cidade e as
+  células representam a distância entre estas cidades. Assim, podemos considerar
+  que num grupo de 5 cidades tenhamos as seguintes disâncias:
+  \begin{displaymath}
+    \begin{bmatrix}
+      0 & 1 & 10 & 5 & 10\\
+      1 & 0 & 2 & 10 & 6\\
+      10 & 2 & 0 & 1 & 11\\
+      5 & 10 & 1 & 0 & 3\\
+      10 & 6 & 11 & 3 & 0
+    \end{bmatrix}
+  \end{displaymath}
+  Onde o elemento $a_{ij}$ representa a distância da cidade $i$ à cidade $j$.
+
+  \subsection{As possíveis soluções}
+  Com as cidades e suas distâncias representadas como uma matriz, temos então as
+  cidades representadas pelos números de 0 a 4, que são os índices das
+  linhas/colunas da matriz.
+  Logo, podemos representar o caminho percorrido como sendo uma sequência de
+  inteiros, que podemos armazenar numa lista.
+
+  Assim, as possíveis soluções para o problema serão listas de inteiros, fazendo
+  desta uma boa representação para os cormossomos em nosso algoritmo genético,
+  assim como na lista a seguir: \verb+[3, 0, 4, 2, 1]+
+
+  \subsection{A função de aptidão}
+  No problema do caixeiro viajante, os menores caminhos são melhores que os
+  maiores caminhos, assim, podemos considerar nossa função de aptidão como sendo
+  simplesmente o somatório das distâncias entre as cidades na ordem especificada
+  em nossas soluções.
+
+  Assim, considerando a matriz e a lista mostrados acima, teríamos como valor de
+  aptidão o seguinte:
+  \begin{align*}
+    a_{30}=5 \\
+    a_{04}=5 \\
+    a_{42}=1 \\
+    a_{21}=2 \\
+    a_{10}=1 \\
+    Logo: 5+5+1+2+1 = 14
+  \end{align*}
+
+  Desta forma, nosso algoritmo considera melhores as soluções com valores de
+  aptidão menores.
+
+  \subsection{Crossover e mutação}
+
+
+
+
+
+\end{document}
