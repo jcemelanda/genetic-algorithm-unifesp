@@ -30,6 +30,8 @@ def create_new_population(original_population, replacement_size, genes):
     gene_set = set(genes)
     parents = original_population[:2]
     while len(new_population) < replacement_size:
+        if choice((True, False)):
+            parents.reverse()
         new_population.add(crossover(parents, gene_set))
     original_population[:-replacement_size].extend(new_population)
     return set(original_population)
@@ -60,18 +62,20 @@ def order_by_fitness(evaluated_population):
     return ordered[0][1], [x[0] for x in ordered]
 
 
-def run(cities_matrix, population_size, replacement_size):
+def run(cities_matrix, population_size, replacement_size, generations):
     genes = list(range(len(cities_matrix)))
     population = generate_first_population(genes, population_size)
     fitness = 0
     fitness_changed = True
-    while fitness_changed:
+    for i in range(generations):
         fitness_changed = False
         new_fitness, population_list = order_by_fitness([get_fitness(x, cities_matrix) for x in population])
         if new_fitness < fitness or not fitness:
             fitness = new_fitness
             fitness_changed = True
-            population = create_new_population(population_list, replacement_size, genes)
+        print(fitness)
+        population = create_new_population(population_list, replacement_size, genes)
+
 
     return fitness, population_list[0]
 
@@ -79,10 +83,19 @@ def run(cities_matrix, population_size, replacement_size):
 
 
 if __name__ == '__main__':
-    matrix = [
-        [0, 1, 10, 10],
-        [10, 0, 1, 10],
-        [10, 10, 0, 1],
-        [1, 10, 10, 0]
-    ]
-    print(run(matrix, 10, 2))
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('matrix_file')
+    parser.add_argument('population_size')
+    parser.add_argument('replacement_size')
+    args = parser.parse_args()
+    filename = args.matrix_file
+    f = open(filename, 'r')
+
+    matrix = []
+    for line in f.readlines():
+        matrix.append([int(x) for x in line.split(' ')])
+
+    pop_size = int(args.population_size)
+    rep_size = int(args.replacement_size)
+    print(run(matrix, pop_size, rep_size, 1000))
