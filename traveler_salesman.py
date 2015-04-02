@@ -10,7 +10,7 @@ def drop_dupes(chromossome, reverse):
         dupe_chromossome = chromossome[::-1]
     seen = set()
     seen_add = seen.add
-    chromossome = [x for x in dupe_chromossome if not (x in seen or seen_add(x)) else -1]
+    chromossome = [x if not (x in seen or seen_add(x)) else -1 for x in dupe_chromossome]
     return chromossome[::-1] if reverse else chromossome
 
 
