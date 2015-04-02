@@ -39,8 +39,6 @@ def create_new_population(original_population, replacement_size, genes, c_rate):
             new_population.append(crossover(parents, gene_set))
         else:
             new_population.append(choice(parents))
-    print(parents)
-    print(new_population[:5])
     original_population[:-replacement_size].extend(new_population)
     return set(original_population)
 
@@ -82,6 +80,7 @@ def run(cities_matrix, population_size, replacement, generations, cross_rate):
         if new_fitness < fitness or not fitness:
             fitness = new_fitness
             fitness_changed = True
+        print(fitness)
         population = create_new_population(population_list, replacement,
             genes, cross_rate)
 
