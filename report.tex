@@ -111,17 +111,48 @@
   gerar o novo indivíduo. O segundo consiste em alterar alguns genes do nosso
   cormossomo para gerar um novo infivíduo.
 
-  No presente trabalho, o crossover e a mutação estão intrinsecamente ligados,
-  pois não temos genes ativado ou não dependendo dos bits presentes em uma
-  posição do cormossomo, mas temos n opções diferentes para cada gene e estes
-  não podem se repetir em um cromossomo.
+  \subsubsection{Crossover}
+  No presente trabalho o crossover feito é o crossover de 1 ponto.
+  Escolhidos os pais do novo indivíduo, ecolhe-se aleatoriamente uma posição do
+  vetor que representa o cromossomo, dividem-se então os dois cromossomos neste
+  ponto e são selecionados um pedaço de um cromossomo e o restante do outro
+  cromossomo.
 
-  Desta forma, a cada vez que ocorre crossover, devemos eliminar genes repetidos
-  e completar o cromossomo com os genes faltantes.
+  Imaginando-se dois cromossomos
 
-  
+  0 1 0 1 1 0
 
+  1 0 1 1 0 0
 
+  Se o crossover for feito na posição 2, o resultado será:
 
+  0 1 do primeiro cromossomo mais 1 1 0 0 do segundo cromossomo, resultando
+  em 0 1 1 1 0 0.
+
+  O algoritmo usado neste trabalho é um pouco diferente, devido às restrições com relação aos genes
+  possíveis e a restrição de não repetição de genes.
+
+  Considerando os cromossomos 0 3 2 4 1 5 7 6 e 3 4 2 5 7 1 6 0 e o ponto de
+  corte sento a posição 3, o primeiro cromossomo é quebrado em 0 3 2 e
+  4 1 5 7 6.
+
+  Para o resultado do crossover, o novo indivíduo então terá a primeira
+  sequência 0 3 2 e o restante do cromossomo deve vir do segundo cromossomo
+  3 4 2 5 7 1 6 0. Para tal, removemos do segundo cromossomo os genes
+  selecionados do primeiro, ficando então 4 5 7 1 6, mantendo então o mais
+  próxima possível a sequência contida no segundo cromossomo. Assim, nosso novo
+  indivíduo tem a seguinte sequência: 0 3 2 4 5 7 1 6.
+
+  \subsubsection{Mutação}
+  A mutação é uma alteração aleatória que ocorre nos cromossomos. Em um
+  cromossomo com representação binária, simplsmente trocamos o valor de um gene
+  de 1 para 0 ou de 0 para 1.
+
+  Já no caso do nosso cromossomo, como não podemos ter repetições, vamos trocar
+  dois cromossomos de lugar. As posições escolhidas para a troca são aleatórias.
+
+  Assim, se temos o cromossomo 0 3 2 4 5 7 1 6, após mutação, com as posições
+  escolhidas sendo 3 e 5, trocaremos os genes 4 e 7, tendo como resultado o
+  cromossomo 0 3 2 7 5 4 1 6.
 
 \end{document}
